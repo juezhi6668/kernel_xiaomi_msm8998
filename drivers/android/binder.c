@@ -3248,7 +3248,7 @@ static void binder_transaction(struct binder_proc *proc,
 		t->from = thread;
 	else
 		t->from = NULL;
-	t->sender_euid = task_euid(proc->tsk);
+	t->sender_euid = proc->cred->euid;
 	t->to_proc = target_proc;
 	t->to_thread = target_thread;
 	t->code = tr->code;
@@ -5255,7 +5255,10 @@ static int binder_open(struct inode *nodp, struct file *filp)
 	get_task_struct(current->group_leader);
 	proc->tsk = current->group_leader;
 	proc->cred = get_cred(filp->f_cred);
+<<<<<<< HEAD
 	mutex_init(&proc->files_lock);
+=======
+>>>>>>> 120ffcd83596... binder: use euid from cred instead of using task
 	INIT_LIST_HEAD(&proc->todo);
 	if (binder_supported_policy(current->policy)) {
 		proc->default_priority.sched_policy = current->policy;
@@ -5481,8 +5484,13 @@ static void binder_deferred_release(struct binder_proc *proc)
 	}
 	binder_proc_unlock(proc);
 
+<<<<<<< HEAD
 	binder_release_work(proc, &proc->todo);
 	binder_release_work(proc, &proc->delivered_death);
+=======
+	put_task_struct(proc->tsk);
+	put_cred(proc->cred);
+>>>>>>> 120ffcd83596... binder: use euid from cred instead of using task
 
 	binder_debug(BINDER_DEBUG_OPEN_CLOSE,
 		     "%s: %d threads %d, nodes %d (ref %d), refs %d, active transactions %d\n",
