@@ -5255,10 +5255,7 @@ static int binder_open(struct inode *nodp, struct file *filp)
 	get_task_struct(current->group_leader);
 	proc->tsk = current->group_leader;
 	proc->cred = get_cred(filp->f_cred);
-<<<<<<< HEAD
 	mutex_init(&proc->files_lock);
-=======
->>>>>>> 120ffcd83596... binder: use euid from cred instead of using task
 	INIT_LIST_HEAD(&proc->todo);
 	if (binder_supported_policy(current->policy)) {
 		proc->default_priority.sched_policy = current->policy;

@@ -1257,7 +1257,7 @@ static struct l2cap_chan *l2cap_sock_new_connection_cb(struct l2cap_chan *chan)
 	if (!sk) {
 		release_sock(parent);
 		return NULL;
-net/bluetooth/l2cap_sock.c        }
+        }
 
 	bt_sock_reclassify_lock(sk, BTPROTO_L2CAP);
 
